@@ -5,6 +5,8 @@ import br.com.zup.LeadCollector.lead.LeadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/leads")
 public class LeadController {
@@ -14,6 +16,11 @@ public class LeadController {
     @PutMapping
     public Lead cadastrarLead(@RequestBody Lead lead){
         return leadService.salvarLead(lead);
+    }
+
+    @GetMapping()
+    public List<Lead> buscarProdutos(@RequestParam String nomeProduto){
+        return leadService.buscarTodosPeloNomeProduto(nomeProduto);
     }
 
 }
