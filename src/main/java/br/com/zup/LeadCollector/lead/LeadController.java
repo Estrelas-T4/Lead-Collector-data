@@ -1,4 +1,4 @@
-package br.com.zup.LeadCollector;
+package br.com.zup.LeadCollector.lead;
 
 import br.com.zup.LeadCollector.lead.Lead;
 import br.com.zup.LeadCollector.lead.LeadService;
