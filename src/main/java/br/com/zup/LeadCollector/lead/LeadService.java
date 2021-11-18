@@ -17,7 +17,10 @@ public class LeadService {
 
     public Lead salvarLead(Lead lead) {
         List<Produto> produtos = buscarProdutos(lead.getProdutosDeInteresse());
-
+        /*
+        O metodo tem um problema. Ele elimina os produtos já cadastrados do lead.
+        Isso não pode acontecer, faça a correção para que os produtos já cadastrado permaneçam e os novos sejam incluidos.
+         */
         lead.setProdutosDeInteresse(produtos);
         return leadRepository.save(lead);
     }
