@@ -12,7 +12,7 @@ public class Lead {
     private String email;
     @Column(columnDefinition = "VARCHAR(100) DEFAULT 'Não Informado'")
     private String nome;
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Produto> produtosDeInteresse;
 
     public String getEmail() {
