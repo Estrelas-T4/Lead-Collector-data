@@ -2,10 +2,7 @@ package br.com.zup.LeadCollector.lead;
 
 import br.com.zup.LeadCollector.produto.Produto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -15,6 +12,7 @@ public class Lead {
     private String email;
     @Column(columnDefinition = "VARCHAR(100) DEFAULT 'Não Informado'")
     private String nome;
+    @ManyToMany
     private List<Produto> produtosDeInteresse;
 
     public String getEmail() {
