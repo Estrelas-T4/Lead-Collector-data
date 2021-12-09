@@ -1,6 +1,8 @@
 package br.com.zup.LeadCollector.lead;
 
 import br.com.zup.LeadCollector.produto.Produto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -24,6 +26,7 @@ public class LeadControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    private ObjectMapper objectMapper;
     private Lead lead;
     private Produto produto;
     private List<Produto> produtos;
@@ -31,6 +34,7 @@ public class LeadControllerTest {
 
     @BeforeEach
     public void setup(){
+        objectMapper = new ObjectMapper();
         lead = new Lead();
         lead.setNome("Billy");
         lead.setEmail("billy@puroosso.com");
@@ -52,6 +56,32 @@ public class LeadControllerTest {
                 .param("nomeProduto", "Foice")
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
+    }
+
+    @Test
+    public void testarRotaParaCadastrarLeadValidacoesEmail() throws Exception {
+        Mockito.when(leadService.salvarLead(Mockito.any(Lead.class))).thenReturn(lead);
+        lead.setEmail("emailerrado.com");
+        String json = objectMapper.writeValueAsString(lead);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.put("/leads")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+
+    }
+
+    @Test
+    public void testarRotaParaCadastrarLead() throws Exception {
+        Mockito.when(leadService.salvarLead(Mockito.any(Lead.class))).thenReturn(lead);
+        String json = objectMapper.writeValueAsString(lead);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.put("/leads")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(200));
+
+        String jsonDeRespostaDaAPI = respostaDaRequisicao.andReturn().getResponse().getContentAsString();
+        Lead leadDaResposta = objectMapper.readValue(jsonDeRespostaDaAPI, Lead.class);
+
     }
 
 }
