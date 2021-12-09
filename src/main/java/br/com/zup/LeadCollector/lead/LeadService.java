@@ -41,7 +41,7 @@ public class LeadService {
     }
 
 
-    private List<Produto> buscarProdutos(List<Produto> produtos) {
+    public List<Produto> buscarProdutos(List<Produto> produtos) {
         List<Produto> listaAtualizada = new ArrayList<>();
 
         for (Produto produto : produtos) {
